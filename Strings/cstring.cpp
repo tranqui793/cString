@@ -22,5 +22,6 @@ String::String(const String& orig) {
 }
 
 String::~String() {
+    delete[] chaine;
 }
 
