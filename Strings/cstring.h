@@ -27,6 +27,48 @@ public:
     String(bool b);
     size_t length()const;
     const char *to_char()const;
+    char& char_at(size_t pos);
+    char char_at(size_t pos)const;
+    bool equals(const char *s) const;
+    bool equals(const String& str) const;
+    String& assign(const char *s);	
+    String& assign(const String& str);
+    String& append(char c);
+    String& append(const char *s);
+    String& append(const String& str);
+    String concat(char c) const;
+    String concat(const char *s) const;
+    String concat(const String& str) const;
+    String substring(size_t indexDepart, size_t indexArrivee) const;
+    char& operator [](size_t position);
+    char operator [](size_t position) const;
+    bool operator ==(const char *s) const;
+    bool operator ==(const String& str) const;
+    bool operator !=(const char *s) const;
+    bool operator !=(const String& str) const;
+    String& operator =(const char *s);
+    String& operator =(const String& str);
+    String& operator +=(char c);
+    String& operator +=(const char *s);
+    String& operator +=(const String& str);
+    friend String operator +(const String& lhs, const String& rhs);
+    friend String operator +(const String& lhs, const char *rhs);
+    friend String operator +(const char *lhs, const String& rhs);
+    friend String operator +(const String& lhs, char c);
+    friend String operator +(char c, const String& rhs);	
+    friend std::ostream& operator <<(std::ostream& os, const String& str);
+    friend std::istream& operator >>(std::istream& is, String& s);
+    String operator +(const String& lhs, const String& rhs);
+    String operator +(const String& lhs, const char *rhs);
+    String operator +(const char *lhs, const String& rhs);
+    String operator +(const String& lhs, char c);
+    String operator +(char c, const String& rhs);
+    std::ostream& operator <<(std::ostream& os, const String& str);
+    std::istream& operator >>(std::istream& is, String& s);
+
+
+
+    
 private:
     char *chaine;
     
