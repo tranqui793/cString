@@ -13,22 +13,23 @@
 
 #ifndef CSTRING_H
 #define CSTRING_H
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
 
 class String {
 public:
     String();
     String(const String& orig);
-    virtual ~String();
-    String(size_t taille);
     String(const char *c);
     String(char c);
-    String(int entier);
+    String(int integer);
     String(double d);
     String(bool b);
+    ~String();
     size_t length()const;
-    const char *to_char()const;
-    char& char_at(size_t pos);
-    char char_at(size_t pos)const;
+    const char* toChar()const;
+    char& charAt(size_t pos)const;
     bool equals(const char *c) const;
     bool equals(const String& str) const;
     String& assign(const char *c);
@@ -39,9 +40,8 @@ public:
     String concat(char c) const;
     String concat(const char *c) const;
     String concat(const String& str) const;
-    String substring(size_t off, size_t len) const;
-    char& operator[](size_t pos);
-    char operator[](size_t pos) const;
+    String substring(int begin, size_t end = 0) const;
+    char& operator[](size_t pos) const;
     bool operator==(const char *c) const;
     bool operator==(const String& str) const;
     bool operator!=(const char *c) const;
@@ -51,27 +51,22 @@ public:
     String& operator+=(char c);
     String& operator+=(const char *c);
     String& operator+=(const String& str);
-    friend String operator+(const String& lhs, const String& rhs);
-    friend String operator+(const String& lhs, const char *rhs);
-    friend String operator+(const char *lhs, const String& rhs);
-    friend String operator+(const String& lhs, char c);
-    friend String operator+(char c, const String& rhs);
+    String operator+(const String& rhs) const;
+    String operator+(const char *rhs) const;
+    String operator+(char c) const;
+//    friend String operator+(const String& lhs, const String& rhs);
+//    friend String operator+(const String& lhs, const char *rhs);
+//    friend String operator+(const char *lhs, const String& rhs);
+//    friend String operator+(char c, const String& rhs);
     friend std::ostream& operator<<(std::ostream& os, const String& str);
-    friend std::istream& operator>>(std::istream& is, String& s);
-    String operator+(const String& lhs, const String& rhs);
-    String operator+(const String& lhs, const char *rhs);
-    String operator+(const char *lhs, const String& rhs);
-    String operator+(const String& lhs, char c);
-    String operator+(char c, const String& rhs);
-    std::ostream& operator<<(std::ostream& os, const String& str);
-    std::istream& operator>>(std::istream& is, String& s);
+    friend std::istream& operator>>(std::istream& is, const String& str);
+    
 private:
-    char* allocation_memoire(size_t nb);
+    char* allocateMemory(size_t nb);
 
-
-
-private:
-    char *chaine;
+    char *chain;
+    //size keeps the length of the string, \0 not included.
+    size_t size;
 
 };
 
