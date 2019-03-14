@@ -29,27 +29,27 @@ public:
     const char *to_char()const;
     char& char_at(size_t pos);
     char char_at(size_t pos)const;
-    bool equals(const char *s) const;
+    bool equals(const char *c) const;
     bool equals(const String& str) const;
-    String& assign(const char *s);	
+    String& assign(const char *c);	
     String& assign(const String& str);
     String& append(char c);
-    String& append(const char *s);
+    String& append(const char *c);
     String& append(const String& str);
     String concat(char c) const;
-    String concat(const char *s) const;
+    String concat(const char *c) const;
     String concat(const String& str) const;
-    String substring(size_t indexDepart, size_t indexArrivee) const;
-    char& operator [](size_t position);
-    char operator [](size_t position) const;
-    bool operator ==(const char *s) const;
+    String substring(size_t off, size_t len) const;
+    char& operator [](size_t pos);
+    char operator [](size_t pos) const;
+    bool operator ==(const char *c) const;
     bool operator ==(const String& str) const;
-    bool operator !=(const char *s) const;
+    bool operator !=(const char *c) const;
     bool operator !=(const String& str) const;
-    String& operator =(const char *s);
+    String& operator =(const char *c);
     String& operator =(const String& str);
     String& operator +=(char c);
-    String& operator +=(const char *s);
+    String& operator +=(const char *c);
     String& operator +=(const String& str);
     friend String operator +(const String& lhs, const String& rhs);
     friend String operator +(const String& lhs, const char *rhs);
@@ -65,7 +65,8 @@ public:
     String operator +(char c, const String& rhs);
     std::ostream& operator <<(std::ostream& os, const String& str);
     std::istream& operator >>(std::istream& is, String& s);
-
+private:
+    char* allocation_memoire(size_t nb);
 
 
     
