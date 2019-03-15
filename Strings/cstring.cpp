@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   cstring.cpp
- * Author: oussama
- * 
- * Created on 7. mars 2019, 12:49
+/**
+ * @file cstring.cpp
+ * @brief implementation of String methods
+ * @date 07.03.2019.
+ * @author Oussama Lagha
+ * @author Max Caduff
  */
 
 #include "cstring.h"
@@ -42,7 +37,6 @@ String::String(char c) {
     chain[0] = c;
     std::cout << "char cstr\n";
 }
-
 String::String(bool b) {
     if (b) {
         chain = allocateMemory(4);
@@ -71,7 +65,6 @@ String::String(double dbl){
 String::~String() {
     delete[] chain;
 }
-
 
 size_t String::length() const {
     return size;
@@ -104,7 +97,7 @@ String& String::append(const char *c) {
 String& String::append(const String& str) {
     return *this += str;
 }
-String String::concat(char c) const {
+String String::concat(const char c) const {
     return *this + c;
 }
 String String::concat(const char *c) const {
@@ -114,10 +107,18 @@ String String::concat(const String& str) const {
     return *this + str;
 }
 String String::substring(int begin, size_t end) const {
-    if (begin > size)
-        throw std::out_of_range("begin > str len");
-    if (0 == end)
+    if (begin > (int)size || begin < int(0 - size))
+        // we could also send an empty str if > everything if <
+//        std::cout << "\noor: " << int(0 - size) << std::endl;
+        throw std::out_of_range("begin out of bounds");
+    if (begin >= (int)end)
+        throw std::invalid_argument("begin >= end");
+    
+    if (0 == end || end > size)
         end = size;
+    if (begin < 0)
+        begin = (int)size + begin;
+    
     size_t newLen = end-begin;
     char subString[newLen+1];
     for(int k=0; k<newLen; k++)
@@ -152,8 +153,7 @@ String& String::operator=(const char *c) {
     return *this;
 }
 String& String::operator=(const String& str) {
-    *this = str.chain;
-    return *this;
+    return *this = str.chain;
 }
 String& String::operator+=(char c) {
     char* newChain = allocateMemory(size+1);
@@ -173,27 +173,23 @@ String& String::operator+=(const char *c) {
     return *this;
 }
 String& String::operator+=(const String& str) {
-    *this += str.chain;
-    return *this;
+    return *this += str.chain;
 }
 
-String String::operator+(const String& rhs) const {
-    return *this + rhs.chain;
+String String::operator+(const String& str) const {
+    return *this + str.chain;
 }
-String String::operator+(const char *rhs) const {
-    char* tmpChar = new char[size+strlen(rhs)+1];
+String String::operator+(const char *str) const {
+    char tmpChar [size+strlen(str)+1];
     strcpy(tmpChar, chain);
-    String tmpStr (strcat(tmpChar, rhs));
-    delete[] tmpChar;
-    return tmpStr;
+    return String (strcat(tmpChar, str));
+
 }
 String String::operator+(char c) const {
-    char* tmpChar = new char[size+2];
+    char tmpChar [size+2];
     strcpy(tmpChar, chain);
     tmpChar[size] = c;
-    String tmpStr (tmpChar);
-    delete[] tmpChar;
-    return tmpStr;
+    return String (tmpChar);
 }
 
 
@@ -206,3 +202,5 @@ std::ostream& operator<<(std::ostream& os, const String& str) {
         os << str[i] ;
     return os;
 }
+
+

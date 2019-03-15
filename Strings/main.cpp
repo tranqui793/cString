@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main.cpp
- * Author: oussama
- *
- * Created on 7. mars 2019, 12:49
+/**
+ * @file main.cpp
+ * @brief program entry point
+ * @date 07.03.2018.
+ * @author Oussama Lagha
+ * @author Max Caduff
  */
 
 #include "cstring.h"
@@ -23,18 +18,25 @@ int main(int argc, char** argv) {
     
     String dbl (4.56);
     String intg (8279341);
+    // test de mettre un \0 au milieu de la chaine
     intg[2] = '\0';
-    cout << dbl << "  " << intg << "\n";
     
-    dbl += "this is a test." ;
+    // tst copy cstr
+    String copy (dbl);
+
+    cout << dbl << "  " << intg << " " << copy << "\n";
+    
+    // test += char et char*
     dbl += 'X';
+    dbl += "this is a test." ;
     cout << dbl << '\n';
     
-    cout << dbl + 'a';
-    cout << '\n' << dbl << endl;
-    
-    String test = dbl.substring(5,12);
-    cout << test;
+    // test + char*
+    cout << dbl + "add\n";
+    // vérif que dbl n'a pas changé
+    cout << dbl << endl;
+    String test = dbl.substring(-7, 250);
+    cout << test << endl;
     
     return 0;
 }
