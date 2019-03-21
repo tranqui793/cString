@@ -202,5 +202,13 @@ std::ostream& operator<<(std::ostream& os, const String& str) {
         os << str[i] ;
     return os;
 }
-
+std::ostream& operator>>(std::ostream& is, const String& str) {
+    char* c = new char[1000];
+    is >> c;
+    str = String(c);
+    delete[] c;
+    
+    return is;
+    
+}
 

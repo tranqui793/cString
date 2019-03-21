@@ -23,7 +23,7 @@ public:
      * Constructeur de String à partir d'une autre String. (copie)
      * @param orig la String à partir de laquelle construire cette String
      */
-    String(const String& orig);
+    explicit String(const String& orig);
     /**
      * Constructeur de String à partir d'un tableau de char. (finissant par \0)
      * @param c le tableau de caractère à partir duquel construire cette String.
