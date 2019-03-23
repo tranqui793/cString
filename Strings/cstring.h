@@ -23,37 +23,37 @@ public:
      * Constructeur de String à partir d'une autre String. (copie)
      * @param orig la String à partir de laquelle construire cette String
      */
-    explicit String(const String& orig);
+    String(const String& orig);
     /**
      * Constructeur de String à partir d'un tableau de char. (finissant par \0)
      * @param c le tableau de caractère à partir duquel construire cette String.
      */
-    String(const char *c);
+    explicit String(const char *c);
     /**
      * Constructeur de String à partir d'un caractère.
      * @param c le caractère à partir duquel construire cette String.
      */
-    String(char c);
+    explicit String(char c);
     /**
      * Constructeur de String à partir d'un entier.
      * Calcule la longueur de la chaîne de caractères pouvant contenir le nombre i
      * à partir de la valeur de retour de la fonction snprintf.
      * @param i le nombre entier à partir duquel construire cette String.
      */
-    String(int integer);
+    explicit String(int integer);
     /**
      * Constructeur de String à partir d'un double.
      * Calcule la longueur de la chaîne de caractères pouvant contenir le nombre d
      * à partir de la valeur de retour de la fonction snprintf.
      * @param d le double à partir duquel contstruire cette String.
      */
-    String(double d);
+    explicit String(double d);
     /**
      * Constructeur de String à partir d'un booléen.
      * Construit une String contenant "true" si b est vrai, "false" sinon.
      * @param b le booléen à partir duquel construire cette String.
      */
-    String(bool b);
+    explicit String(bool b);
     /**
      * Destructeur
      */
@@ -145,8 +145,8 @@ public:
      * @throw invalid_argument si begin >= end
      * @param begin le début de la sous-chaîne de caractères. (begin inclus)
      * @param end la fin de la sous-chaîne de caractères (end exclu).
-     * @return la String composée de la sous-chaîne de caractères comprise entre
-     * les indices begin et end de cette String.
+     * @return une nouvelle String composée de la sous-chaîne de caractères 
+     * comprise entre les indices begin et end de cette String.
      */
     String substring(int begin, size_t end = 0) const;
     /**
@@ -234,16 +234,47 @@ public:
      * @return la concaténation des deux éléments dans une nouvelle String.
      */
     String operator+(char c) const;
-    
-    // still to do
+    /**
+     * Surcharge de l'opérateur + de char* pour permettre la concaténation d'un
+     * char* avec une string.
+     * @param lhs le char* de gauche.
+     * @param rhs la string à ajouter.
+     * @return la concaténation des deux éléments dans une nouvelle String.
+     */
     friend String operator+(const char *lhs, const String& rhs);
-    friend String operator+(char c, const String& rhs);
+    /**
+     * Surcharge de l'opérateur + de char pour permettre la concaténation d'un
+     * char avec une string.
+     * @param lhs le char de gauche.
+     * @param rhs la string à ajouter.
+     * @return la concaténation des deux éléments dans une nouvelle String.
+     */
+    friend String operator+(const char c, const String& rhs);
+    /**
+     * Surcharge de l'opérateur << pour envoyer une string sur un flux.
+     * @param os le stream sur lequel envoyer la string.
+     * @param rhs la string à afficher.
+     * @return une référence sur le flux pour permettre le chainage.
+     */
     friend std::ostream& operator<<(std::ostream& os, const String& str);
-    friend std::istream& operator>>(std::istream& is, const String& str);
+    /**
+     * Surcharge de l'opérateur >> pour lire une string depuis un flux.
+     * @param is le stream depuis lequel lire la string.
+     * @param rhs la string à populer avec la lecture.
+     * @return une référence sur le flux pour permettre le chainage.
+     */
+    friend std::istream& operator>>(std::istream& is, String& str);
     
 private:
+    
+    /**
+     * alloue la mémoire pour les nouvelles strings, et stocke la taille.
+     * @param nb le nombre de cases mémoire à réserver, '\0' non inclus.
+     * @return un pointeur sur la zone réservée.
+     */
     char* allocateMemory(size_t nb);
 
+    // représentation du texte sour forme de char*
     char *chain;
     // size keeps the length of the string, \0 not included.
     size_t size;

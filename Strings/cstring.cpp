@@ -19,23 +19,18 @@ char* String::allocateMemory(size_t nb) {
 
 String::String() {
     chain = allocateMemory(0);
-    std::cout << "empty cstr\n";
 }
 
-String::String(const String& orig) : String(orig.chain) {
-    std::cout << "cpy cstr\n";
-}
+String::String(const String& orig) : String(orig.chain) {}
 
 String::String(const char* c) {
     chain = allocateMemory(strlen(c));
     strcpy(chain, c);
-    std::cout << "char* cstr\n";
 }
 
 String::String(char c) {
     chain = allocateMemory(1);
     chain[0] = c;
-    std::cout << "char cstr\n";
 }
 String::String(bool b) {
     if (b) {
@@ -107,9 +102,8 @@ String String::concat(const String& str) const {
     return *this + str;
 }
 String String::substring(int begin, size_t end) const {
+        // we could also send an empty str begin out of bounds.
     if (begin > (int)size || begin < int(0 - size))
-        // we could also send an empty str if > everything if <
-//        std::cout << "\noor: " << int(0 - size) << std::endl;
         throw std::out_of_range("begin out of bounds");
     if (begin >= (int)end)
         throw std::invalid_argument("begin >= end");
@@ -120,7 +114,7 @@ String String::substring(int begin, size_t end) const {
         begin = (int)size + begin;
     
     size_t newLen = end-begin;
-    char subString[newLen+1];
+    char subString[newLen];
     for(int k=0; k<newLen; k++)
         subString[k] = chain[k+begin];
     subString[newLen] = '\0';
@@ -180,15 +174,27 @@ String String::operator+(const String& str) const {
     return *this + str.chain;
 }
 String String::operator+(const char *str) const {
-    char tmpChar [size+strlen(str)+1];
+    char tmpChar [size+strlen(str)];
     strcpy(tmpChar, chain);
     return String (strcat(tmpChar, str));
 
 }
 String String::operator+(char c) const {
-    char tmpChar [size+2];
+    char tmpChar [size+1];
     strcpy(tmpChar, chain);
     tmpChar[size] = c;
+    return String (tmpChar);
+}
+
+String operator+(const char *lhs, const String& rhs) {
+    char tmpChar [rhs.size+strlen(lhs)];
+    strcpy(tmpChar, lhs);
+    return String (strcat(tmpChar, rhs.chain));
+}
+String operator+(const char c, const String& rhs) {
+    char tmpChar [rhs.size+1];
+    tmpChar[0] = c;
+    strcpy(tmpChar+1, rhs.chain);
     return String (tmpChar);
 }
 
@@ -202,11 +208,15 @@ std::ostream& operator<<(std::ostream& os, const String& str) {
         os << str[i] ;
     return os;
 }
-std::ostream& operator>>(std::ostream& is, const String& str) {
-    char* c = new char[1000];
-    is >> c;
-    str = String(c);
-    delete[] c;
+
+std::istream& operator>>(std::istream& is, String& str) {
+
+    char tmp[1000];
+    std::cin.getline(tmp, 1000);
+    if (str.chain)
+        delete[] str.chain;
+    str.chain = str.allocateMemory(std::min((int)strlen(tmp), 1000));
+    strncpy(str.chain, tmp, 1000);
     
     return is;
     

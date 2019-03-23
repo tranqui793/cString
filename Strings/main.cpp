@@ -38,6 +38,9 @@ int main(int argc, char** argv) {
     String test = dbl.substring(-7, 250);
     cout << test << endl;
     
+    cin >> test;
+    cout << endl << "result: " << 'a' + test << "\nbye."+test ;
+    
     return 0;
 }
 
