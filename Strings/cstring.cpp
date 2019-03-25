@@ -10,9 +10,9 @@
 #include <cstring>
 
 
-char* String::allocateMemory(size_t nb) {
+char *String::allocateMemory(size_t nb) {
     size = nb;
-    char * tmp = new char[nb + 1];
+    char *tmp = new char[nb + 1];
     tmp[nb] = '\0';
     return tmp;
 }
@@ -21,9 +21,9 @@ String::String() {
     chain = allocateMemory(0);
 }
 
-String::String(const String& orig) : String(orig.chain) {}
+String::String(const String &orig) : String(orig.chain) {}
 
-String::String(const char* c) {
+String::String(const char *c) {
     chain = allocateMemory(strlen(c));
     strcpy(chain, c);
 }
@@ -32,6 +32,7 @@ String::String(char c) {
     chain = allocateMemory(1);
     chain[0] = c;
 }
+
 String::String(bool b) {
     if (b) {
         chain = allocateMemory(4);
@@ -42,19 +43,19 @@ String::String(bool b) {
     }
 }
 
-String::String(int integer){
-    
+String::String(int integer) {
+
     size_t size = snprintf(chain, 0, "%d", integer);
     chain = allocateMemory(size);
-    snprintf(chain, size +1, "%d", integer);
-    
+    snprintf(chain, size + 1, "%d", integer);
+
 }
 
-String::String(double dbl){
-    
+String::String(double dbl) {
+
     size_t size = snprintf(chain, 0, "%f", dbl);
     chain = allocateMemory(size);
-    snprintf(chain, size +1, "%f", dbl);
+    snprintf(chain, size + 1, "%f", dbl);
 }
 
 String::~String() {
@@ -65,63 +66,75 @@ size_t String::length() const {
     return size;
 }
 
-const char* String::toChar()const {
+const char *String::toChar() const {
     return chain;
 }
-char& String::charAt(size_t pos)const {
+
+char &String::charAt(size_t pos) const {
     return chain[pos];
 }
+
 bool String::equals(const char *c) const {
     return *this == c;
 }
-bool String::equals(const String& str) const {
+
+bool String::equals(const String &str) const {
     return *this == str;
 }
-String& String::assign(const char *c) {
+
+String &String::assign(const char *c) {
     return *this = c;
 }
-String& String::assign(const String& str) {
+
+String &String::assign(const String &str) {
     return *this = str;
 }
-String& String::append(char c) {
+
+String &String::append(char c) {
     return *this += c;
 }
-String& String::append(const char *c) {
+
+String &String::append(const char *c) {
     return *this += c;
 }
-String& String::append(const String& str) {
+
+String &String::append(const String &str) {
     return *this += str;
 }
+
 String String::concat(const char c) const {
     return *this + c;
 }
+
 String String::concat(const char *c) const {
     return *this + c;
 }
-String String::concat(const String& str) const {
+
+String String::concat(const String &str) const {
     return *this + str;
 }
+
 String String::substring(int begin, size_t end) const {
-        // we could also send an empty str begin out of bounds.
-    if (begin > (int)size || begin < int(0 - size))
+    // we could also send an empty str begin out of bounds.
+    if (begin > (int) size || begin < int(0 - size))
         throw std::out_of_range("begin out of bounds");
-    if (begin >= (int)end)
+    if (begin >= (int) end)
         throw std::invalid_argument("begin >= end");
-    
+
     if (0 == end || end > size)
         end = size;
     if (begin < 0)
-        begin = (int)size + begin;
-    
-    size_t newLen = end-begin;
+        begin = (int) size + begin;
+
+    size_t newLen = end - begin;
     char subString[newLen];
-    for(int k=0; k<newLen; k++)
-        subString[k] = chain[k+begin];
+    for (int k = 0; k < newLen; k++)
+        subString[k] = chain[k + begin];
     subString[newLen] = '\0';
-    return String (subString);
+    return String(subString);
 }
 
-char& String::operator[](size_t pos) const {
+char &String::operator[](size_t pos) const {
     if (pos > size)
         throw std::out_of_range("out of bounds");
     return *(chain + pos);
@@ -131,94 +144,103 @@ char& String::operator[](size_t pos) const {
 bool String::operator==(const char *c) const {
     return !strcmp(chain, c);
 }
-bool String::operator==(const String& str) const {
+
+bool String::operator==(const String &str) const {
     return str == chain;
 }
+
 bool String::operator!=(const char *c) const {
-    return ! (*this == c);
+    return !(*this == c);
 }
-bool String::operator!=(const String& str) const {
-    return ! (*this == str);
+
+bool String::operator!=(const String &str) const {
+    return !(*this == str);
 }
-String& String::operator=(const char *c) {
+
+String &String::operator=(const char *c) {
     delete[] chain;
     allocateMemory(strlen(c));
     chain = strcpy(chain, c);
     return *this;
 }
-String& String::operator=(const String& str) {
+
+String &String::operator=(const String &str) {
     return *this = str.chain;
 }
-String& String::operator+=(char c) {
-    char* newChain = allocateMemory(size+1);
+
+String &String::operator+=(char c) {
+    char *newChain = allocateMemory(size + 1);
     strcpy(newChain, chain);
-    newChain[size-1] = c;
+    newChain[size - 1] = c;
     delete[] chain;
     chain = newChain;
     return *this;
 }
-String& String::operator+=(const char *c) {
+
+String &String::operator+=(const char *c) {
     size_t oldSize = size;
-    char* newChain = allocateMemory(size+strlen(c));
+    char *newChain = allocateMemory(size + strlen(c));
     strcpy(newChain, chain);
-    strcpy(newChain+oldSize, c);
+    strcpy(newChain + oldSize, c);
     delete[] chain;
     chain = newChain;
     return *this;
 }
-String& String::operator+=(const String& str) {
+
+String &String::operator+=(const String &str) {
     return *this += str.chain;
 }
 
-String String::operator+(const String& str) const {
+String String::operator+(const String &str) const {
     return *this + str.chain;
 }
+
 String String::operator+(const char *str) const {
-    char tmpChar [size+strlen(str)];
+    char tmpChar[size + strlen(str)];
     strcpy(tmpChar, chain);
-    return String (strcat(tmpChar, str));
+    return String(strcat(tmpChar, str));
 
 }
+
 String String::operator+(char c) const {
-    char tmpChar [size+1];
+    char tmpChar[size + 1];
     strcpy(tmpChar, chain);
     tmpChar[size] = c;
-    return String (tmpChar);
+    return String(tmpChar);
 }
 
-String operator+(const char *lhs, const String& rhs) {
-    char tmpChar [rhs.size+strlen(lhs)];
+String operator+(const char *lhs, const String &rhs) {
+    char tmpChar[rhs.size + strlen(lhs)];
     strcpy(tmpChar, lhs);
-    return String (strcat(tmpChar, rhs.chain));
+    return String(strcat(tmpChar, rhs.chain));
 }
-String operator+(const char c, const String& rhs) {
-    char tmpChar [rhs.size+1];
+
+String operator+(const char c, const String &rhs) {
+    char tmpChar[rhs.size + 1];
     tmpChar[0] = c;
-    strcpy(tmpChar+1, rhs.chain);
-    return String (tmpChar);
+    strcpy(tmpChar + 1, rhs.chain);
+    return String(tmpChar);
 }
 
 
-
-
-std::ostream& operator<<(std::ostream& os, const String& str) {
+std::ostream &operator<<(std::ostream &os, const String &str) {
 
 //   we don't do: os << str.chain; in case of \0 in the chain 
-    for (size_t i = 0; i < str.size; i++ )
-        os << str[i] ;
+    for (size_t i = 0; i < str.size; i++)
+        os << str[i];
     return os;
 }
 
-std::istream& operator>>(std::istream& is, String& str) {
+std::istream &operator>>(std::istream &is, String &str) {
 
     char tmp[1000];
     std::cin.getline(tmp, 1000);
     if (str.chain)
         delete[] str.chain;
-    str.chain = str.allocateMemory(std::min((int)strlen(tmp), 1000));
+    str.chain = str.allocateMemory(std::min((int) strlen(tmp), 1000));
     strncpy(str.chain, tmp, 1000);
-    
+
     return is;
-    
+
 }
 
