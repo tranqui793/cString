@@ -71,6 +71,7 @@ const char *String::toChar() const {
 }
 
 char &String::charAt(size_t pos) const {
+    if(pos>size)throw std::out_of_range("begin out of bounds");
     return chain[pos];
 }
 
@@ -90,9 +91,6 @@ String &String::assign(const String &str) {
     return *this = str;
 }
 
-String &String::append(char c) {
-    return *this += c;
-}
 
 String &String::append(const char *c) {
     return *this += c;
@@ -102,9 +100,6 @@ String &String::append(const String &str) {
     return *this += str;
 }
 
-String String::concat(const char c) const {
-    return *this + c;
-}
 
 String String::concat(const char *c) const {
     return *this + c;
@@ -168,15 +163,6 @@ String &String::operator=(const String &str) {
     return *this = str.chain;
 }
 
-String &String::operator+=(char c) {
-    char *newChain = allocateMemory(size + 1);
-    strcpy(newChain, chain);
-    newChain[size - 1] = c;
-    delete[] chain;
-    chain = newChain;
-    return *this;
-}
-
 String &String::operator+=(const char *c) {
     size_t oldSize = size;
     char *newChain = allocateMemory(size + strlen(c));
@@ -200,13 +186,6 @@ String String::operator+(const char *str) const {
     strcpy(tmpChar, chain);
     return String(strcat(tmpChar, str));
 
-}
-
-String String::operator+(char c) const {
-    char tmpChar[size + 1];
-    strcpy(tmpChar, chain);
-    tmpChar[size] = c;
-    return String(tmpChar);
 }
 
 String operator+(const char *lhs, const String &rhs) {
