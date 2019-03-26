@@ -116,12 +116,6 @@ public:
      */
     String &assign(const String &str);
 
-    /**
-     * paraphrase de l'opérateur +=
-     * @param c le char à concaténer à cette String.
-     * @return une référence sur cette String modifiée.
-     */
-    String &append(char c);
 
     /**
      * paraphrase de l'opérateur +=
@@ -151,12 +145,6 @@ public:
      */
     String concat(const char *c) const;
 
-    /**
-     * paraphrase de l'opérateur +
-     * @param c le char à ajouter.
-     * @return la concaténation des deux éléments dans une nouvelle String.
-     */
-    String concat(const char c) const;
 
     /**
      * Renvoie une sous-chaîne de cette String comprise entre les indices begin
@@ -222,13 +210,6 @@ public:
      */
     String &operator=(const String &str);
 
-    /**
-     * Surcharge de l'opérateur += pour permettre la concaténation de cette 
-     * String avec un char.
-     * @param c le char à concaténer à cette String.
-     * @return une référence sur cette String modifiée.
-     */
-    String &operator+=(char c);
 
     /**
      * Surcharge de l'opérateur += pour permettre la concaténation de cette
@@ -262,13 +243,6 @@ public:
      */
     String operator+(const char *str) const;
 
-    /**
-     * Surcharge de l'opérateur + pour permettre la concaténation de cette
-     * String avec un char dans une nouvelle String.
-     * @param c le char à ajouter.
-     * @return la concaténation des deux éléments dans une nouvelle String.
-     */
-    String operator+(char c) const;
 
     /**
      * Surcharge de l'opérateur + de char* pour permettre la concaténation d'un

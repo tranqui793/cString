@@ -91,9 +91,6 @@ int main(int argc, char **argv) {
     s4.assign(s1);
     cout << "test 15 : " << s1 << endl;
 
-    /* test 16 : append d'un caractère*/
-    s10.append('e');
-    cout << "test 16 : " << s10 << endl;
 
     /* test 17 : append d'une chaîne de caractere*/
     s10.append("r main. ");
@@ -102,9 +99,6 @@ int main(int argc, char **argv) {
     /* test 18 :append d'une autre String*/
     s10.append(s3);
     cout << "test 18 : " << s10 << endl;
-
-    /* test 19 : concat un caractère*/
-    cout << "test 19 : " << s10.concat('A') << endl;
 
     /* test 20 : concat une chaine de caractères*/
     cout << "test 20 : " << s10.concat("Bonjour..") << endl;
@@ -128,7 +122,7 @@ int main(int argc, char **argv) {
     } catch (const std::out_of_range &e) {
         cout << e.what() << endl;
     }
-    
+
 
 
     return EXIT_SUCCESS;
