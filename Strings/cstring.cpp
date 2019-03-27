@@ -10,7 +10,7 @@
 #include <cstring>
 
 
-char *String::allocateMemory(size_t nb) {
+char *String::allocateMemory(const size_t nb) {
     size = nb;
     char *tmp = new char[nb + 1];
     tmp[nb] = '\0';
@@ -70,9 +70,8 @@ const char *String::toChar() const {
     return chain;
 }
 
-char &String::charAt(size_t pos) const {
-    if(pos>size)throw std::out_of_range("begin out of bounds");
-    return chain[pos];
+char &String::charAt(const size_t pos) const {
+    return (*this)[pos];
 }
 
 bool String::equals(const char *c) const {
@@ -113,11 +112,13 @@ String String::substring(int begin, size_t end) const {
     // we could also send an empty str begin out of bounds.
     if (begin > (int) size || begin < int(0 - size))
         throw std::out_of_range("begin out of bounds");
+   
+    if (0 == end || end > size)
+        end = size;
+
     if (begin >= (int) end)
         throw std::invalid_argument("begin >= end");
 
-    if (0 == end || end > size)
-        end = size;
     if (begin < 0)
         begin = (int) size + begin;
 
@@ -129,8 +130,8 @@ String String::substring(int begin, size_t end) const {
     return String(subString);
 }
 
-char &String::operator[](size_t pos) const {
-    if (pos > size)
+char &String::operator[](const size_t pos) const {
+    if (pos >= size)
         throw std::out_of_range("out of bounds");
     return *(chain + pos);
 }
@@ -154,7 +155,7 @@ bool String::operator!=(const String &str) const {
 
 String &String::operator=(const char *c) {
     delete[] chain;
-    allocateMemory(strlen(c));
+    chain = allocateMemory(strlen(c));
     chain = strcpy(chain, c);
     return *this;
 }
@@ -165,7 +166,7 @@ String &String::operator=(const String &str) {
 
 String &String::operator+=(const char *c) {
     size_t oldSize = size;
-    char *newChain = allocateMemory(size + strlen(c));
+    char *newChain = allocateMemory(oldSize + strlen(c));
     strcpy(newChain, chain);
     strcpy(newChain + oldSize, c);
     delete[] chain;
@@ -214,8 +215,7 @@ std::istream &operator>>(std::istream &is, String &str) {
 
     char tmp[1000];
     std::cin.getline(tmp, 1000);
-    if (str.chain)
-        delete[] str.chain;
+    delete[] str.chain;
     str.chain = str.allocateMemory(std::min((int) strlen(tmp), 1000));
     strncpy(str.chain, tmp, 1000);
 

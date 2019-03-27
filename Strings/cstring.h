@@ -41,16 +41,16 @@ public:
 
     /**
      * Constructeur de String à partir d'un entier.
-     * Calcule la longueur de la chaîne de caractères pouvant contenir le nombre i
-     * à partir de la valeur de retour de la fonction snprintf.
+     * Calcule la longueur de la chaîne de caractères pouvant contenir le
+     * nombre i à partir de la valeur de retour de la fonction snprintf.
      * @param i le nombre entier à partir duquel construire cette String.
      */
     explicit String(int integer);
 
     /**
      * Constructeur de String à partir d'un double.
-     * Calcule la longueur de la chaîne de caractères pouvant contenir le nombre d
-     * à partir de la valeur de retour de la fonction snprintf.
+     * Calcule la longueur de la chaîne de caractères pouvant contenir le
+     * nombre d à partir de la valeur de retour de la fonction snprintf.
      * @param d le double à partir duquel contstruire cette String.
      */
     explicit String(double d);
@@ -86,7 +86,7 @@ public:
      * @param pos l'index du caractère.
      * @return une référence sur le caractère à l'index pos de cette String.
      */
-    char &charAt(size_t pos) const;
+    char &charAt(const size_t pos) const;
 
     /**
      * paraphrase de l'opérateur ==.
@@ -166,7 +166,7 @@ public:
      * @param pos l'index du caractère.
      * @return une référence sur le caractère à l'index pos de cette String.
      */
-    char &operator[](size_t pos) const;
+    char &operator[](const size_t pos) const;
 
     /**
      * Compare cette String avec une chaîne de caractères.
@@ -285,7 +285,7 @@ private:
      * @param nb le nombre de cases mémoire à réserver, '\0' non inclus.
      * @return un pointeur sur la zone réservée.
      */
-    char *allocateMemory(size_t nb);
+    char *allocateMemory(const size_t nb);
 
     // représentation du texte sour forme de char*
     char *chain;
